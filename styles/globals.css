@@ -26,7 +26,9 @@
   .wprm-recipe-ingredient-amount {
     @apply bg-slate-300 p-1 text-xl;
   }
-
+  .wprm-recipe-details-label {
+    @apply inline-block w-36;
+  }
   .wprm-recipe-ingredient-name {
     @apply font-bold capitalize;
   }

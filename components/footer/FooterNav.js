@@ -2,8 +2,8 @@ export default function FooterNav(params) {
   return (
     <nav className="flex w-full justify-center bg-[#439C9C] py-4">
       <div className="container grid grid-cols-5">
-        <dl>
-          <dt className="mb-2 font-bold uppercase">Course</dt>
+        <dl className="grid gap-1">
+          <dt className="mb-1 font-bold uppercase">Course</dt>
           <dd>Burgers</dd>
           <dd>Casseroles</dd>
           <dd>Pasta</dd>
@@ -12,8 +12,8 @@ export default function FooterNav(params) {
           <dd>Sandwiches</dd>
           <dd>Tacos</dd>
         </dl>
-        <dl>
-          <dt className="mb-2 font-bold uppercase">Cuisine</dt>
+        <dl className="grid gap-1">
+          <dt className="mb-1 font-bold uppercase">Cuisine</dt>
           <dd>Asian</dd>
           <dd>Cuban</dd>
           <dd>Greek</dd>
@@ -22,8 +22,8 @@ export default function FooterNav(params) {
           <dd>Middle Eastern</dd>
           <dd>Thai</dd>
         </dl>
-        <dl>
-          <dt className="mb-2 font-bold uppercase">Dietary</dt>
+        <dl className="grid gap-1">
+          <dt className="mb-1 font-bold uppercase">Dietary</dt>
           <dd>Dairy Free</dd>
           <dd>Egg Free</dd>
           <dd>Gluten Free</dd>
@@ -33,8 +33,8 @@ export default function FooterNav(params) {
           <dd>Vegan</dd>
           <dd>Vegetarian</dd>
         </dl>
-        <dl>
-          <dt className="mb-2 font-bold uppercase">Method</dt>
+        <dl className="grid gap-1">
+          <dt className="mb-1 font-bold uppercase">Method</dt>
           <dd>Baking</dd>
           <dd>Grilling</dd>
           <dd>Instant Pot</dd>
@@ -42,8 +42,8 @@ export default function FooterNav(params) {
           <dd>Slow Cooker</dd>
           <dd>Stove Top</dd>
         </dl>
-        <dl>
-          <dt className="mb-2 font-bold uppercase">Weigth Watchers</dt>
+        <dl className="grid gap-1">
+          <dt className="mb-1 font-bold uppercase">Weigth Watchers</dt>
           <dd>0 Blue Smartpoints</dd>
           <dd>1 Blue Smartpoints</dd>
           <dd>2 Blue Smartpoints</dd>

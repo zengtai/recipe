@@ -6,12 +6,14 @@ import Pagination from "../../components/list/Pagination";
 import {
   getAllCategories,
   getCategoryId,
+  getDataByCategory,
   getDataByCategoryId,
 } from "../../lib/api";
 
 export default function Category({ data, categories, currentCategory, id }) {
   console.log(`categories`, categories);
   console.log(`id`, id);
+
   console.log(`data`, data);
   console.log(`currentCategory`, currentCategory);
   return (
@@ -46,7 +48,10 @@ export async function getStaticProps(ctx) {
   const categories = await getAllCategories();
 
   const id = await getCategoryId(ctx.params.slug);
-  const data = await getDataByCategoryId(id, 1);
+
+  // const data = await getDataByCategoryId(id, 1);
+
+  const data = await getDataByCategory(1, ctx.params.slug);
 
   const currentCategory = categories.filter(
     (item) => item.slug == ctx.params.slug

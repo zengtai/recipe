@@ -9,11 +9,12 @@ import {
   getTotal,
 } from "../../lib/api";
 
-export default function Recipe() {
+export default function Recipe({ data }) {
+  console.log(`data`, data);
   return (
     <>
       <Head>
-        <title>Recipe Guru</title>
+        <title>{data.title}</title>
         <meta name="description" content="Recipe for Every Day" />
       </Head>
 
@@ -24,15 +25,15 @@ export default function Recipe() {
               <div className="flex gap-4">
                 <div className="relative h-fit basis-1/5 border-4 border-[#48C0C0]">
                   <Image
-                    src={`https://www.recipegirl.com/wp-content/uploads/2008/08/Best-Brownies-Recipe-1-300x300.jpeg`}
-                    alt="Title"
+                    src={data.featuredImageUrl}
+                    alt={data.title}
                     width={200}
                     height={200}
                     layout={`responsive`}
                   />
                 </div>
                 <div className="max-w-3xl">
-                  <RecipeDetail />
+                  <RecipeDetail content={data.content} title={data.title} />
                 </div>
               </div>
             </div>
@@ -101,33 +102,55 @@ export default function Recipe() {
   );
 }
 
-export async function getStaticProps(ctx) {
-  const categories = await getAllCategories();
+export async function getCategoryIdBySlug(slug) {
+  const target = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/categories?slug=${slug}&_fields=id`
+  ).then((res) => res.json());
 
-  const data = await getDataBySlug(ctx.params.slug);
+  return target[0].id;
+}
+
+export async function getStaticProps(ctx) {
+  // const categories = await getAllCategories();
+
+  const sourceData = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/posts?&slug=${ctx.params.slug}&_fields=slug,title,content,id,_links,_embedded&_embed`
+  ).then((res) => res.json());
+  let data = [];
+  sourceData.map((item) => {
+    let tmp = {};
+    tmp.id = item.id;
+    tmp.title = item.title.rendered;
+    tmp.slug = item.slug;
+    tmp.content = item.content.rendered;
+    tmp.featuredImageUrl =
+      item._embedded[
+        "wp:featuredmedia"
+      ][0].media_details.sizes.square.source_url;
+    data.push(tmp);
+  });
 
   return {
     props: {
-      data,
-      categories,
+      data: data[0],
+      // categories,
     },
   };
 }
 
 export async function getStaticPaths() {
   let recipes = [];
-
-  const per_page = 20;
+  const per_page = 100;
   const allDataCount = await getTotal(per_page);
 
-  let total = allDataCount.total;
   let pages = allDataCount.pages;
 
-  for (let page = 1; page <= pages; page++) {
+  for (let currPage = 1; currPage <= pages; currPage++) {
     let tmp = await fetch(
-      `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${page}&categories_exclude=19959,8883,26383,7942,19961&_fields=slug,title,id`
+      `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${currPage}&categories_exclude=19959,8883,26383,7942,19961&_fields=slug`
     ).then((res) => res.json());
-    recipes.push(tmp);
+
+    recipes = recipes.concat(tmp);
   }
 
   // for (let page = 1, per_page = 10; page * 10 <= total; page++) {
@@ -136,7 +159,7 @@ export async function getStaticPaths() {
   //   );
   // }
 
-  const paths = categories.map((item) => ({ params: { slug: item.slug } }));
+  const paths = recipes.map((item) => ({ params: { slug: item.slug } }));
 
   return {
     paths,
