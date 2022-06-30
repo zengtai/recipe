@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import RecipeDetail from "../../components/detail/RecipeDetail";
+import { getAllCategories, getDataByCategory } from "../../lib/api";
 
 export default function Recipe() {
   return (
@@ -93,4 +94,27 @@ export default function Recipe() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps(ctx) {
+  const categories = await getAllCategories();
+  const data = await getDataByCategory(1, ctx.params.slug);
+
+  return {
+    props: {
+      data,
+      categories,
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  const categories = await getAllCategories();
+
+  const paths = categories.map((item) => ({ params: { slug: item.slug } }));
+
+  return {
+    paths,
+    fallback: false,
+  };
 }

@@ -3,8 +3,12 @@ import Image from "next/image";
 import Aside from "../components/Aside";
 import List from "../components/list/List";
 import Pagination from "../components/list/Pagination";
+import { getAllCategories, getDataForHome } from "../lib/api";
 
-export default function Home() {
+export default function Home({ data, categories }) {
+  // console.log(`data`, data);
+  // console.log(`categories`, categories);
+
   return (
     <>
       <Head>
@@ -16,7 +20,7 @@ export default function Home() {
         <Aside />
         <div className="flex grow flex-col bg-white">
           <div className="grow">
-            <List />
+            <List items={data} />
           </div>
           <Pagination />
         </div>
@@ -24,3 +28,15 @@ export default function Home() {
     </>
   );
 }
+
+export const getStaticProps = async (ctx) => {
+  const data = await getDataForHome(1);
+  // const categories = await getAllCategories();
+
+  return {
+    props: {
+      data,
+      // categories,
+    },
+  };
+};

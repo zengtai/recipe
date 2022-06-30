@@ -3,8 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import ListItem from "../../components/list/ListItem";
 import Pagination from "../../components/list/Pagination";
+import { getAllCategories, getDataByCategory } from "../../lib/api";
 
-export default function Category() {
+export default function Category({ data, categories }) {
+  console.log(`categories`, categories);
   return (
     <>
       <Head>
@@ -20,7 +22,9 @@ export default function Category() {
               Category Title
             </h1>
             <ul className="grid grid-cols-6 gap-4">
-              <ListItem />
+              {data.map((item) => (
+                <ListItem key={item.id} item={item} />
+              ))}
             </ul>
           </div>
           <Pagination />
@@ -28,4 +32,27 @@ export default function Category() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps(ctx) {
+  const categories = await getAllCategories();
+  const data = await getDataByCategory(1, ctx.params.slug);
+
+  return {
+    props: {
+      data,
+      categories,
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  const categories = await getAllCategories();
+
+  const paths = categories.map((item) => ({ params: { slug: item.slug } }));
+
+  return {
+    paths,
+    fallback: false,
+  };
 }
