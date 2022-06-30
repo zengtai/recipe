@@ -3,10 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import ListItem from "../../components/list/ListItem";
 import Pagination from "../../components/list/Pagination";
-import { getAllCategories, getDataByCategory } from "../../lib/api";
+import {
+  getAllCategories,
+  getCategoryId,
+  getDataByCategoryId,
+} from "../../lib/api";
 
-export default function Category({ data, categories }) {
+export default function Category({ data, categories, currentCategory, id }) {
   console.log(`categories`, categories);
+  console.log(`id`, id);
+  console.log(`data`, data);
+  console.log(`currentCategory`, currentCategory);
   return (
     <>
       <Head>
@@ -18,9 +25,10 @@ export default function Category({ data, categories }) {
       <div className="container flex gap-6">
         <div className="flex grow flex-col bg-white">
           <div className="grow">
-            <h1 className="mb-6 text-3xl font-bold text-[#439C9C]">
-              Category Title
-            </h1>
+            <h1
+              className="mb-6 text-3xl font-bold text-[#439C9C]"
+              dangerouslySetInnerHTML={{ __html: currentCategory[0].name }}
+            ></h1>
             <ul className="grid grid-cols-6 gap-4">
               {data.map((item) => (
                 <ListItem key={item.id} item={item} />
@@ -36,12 +44,20 @@ export default function Category({ data, categories }) {
 
 export async function getStaticProps(ctx) {
   const categories = await getAllCategories();
-  const data = await getDataByCategory(1, ctx.params.slug);
+
+  const id = await getCategoryId(ctx.params.slug);
+  const data = await getDataByCategoryId(id, 1);
+
+  const currentCategory = categories.filter(
+    (item) => item.slug == ctx.params.slug
+  );
 
   return {
     props: {
       data,
+      id,
       categories,
+      currentCategory,
     },
   };
 }

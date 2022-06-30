@@ -5,37 +5,52 @@ export default function FooterNav(params) {
         <dl>
           <dt className="mb-2 font-bold uppercase">Course</dt>
           <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
+          <dd>Casseroles</dd>
+          <dd>Pasta</dd>
+          <dd>Pizza</dd>
+          <dd>Salads</dd>
+          <dd>Sandwiches</dd>
+          <dd>Tacos</dd>
         </dl>
         <dl>
           <dt className="mb-2 font-bold uppercase">Cuisine</dt>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
+          <dd>Asian</dd>
+          <dd>Cuban</dd>
+          <dd>Greek</dd>
+          <dd>Indian</dd>
+          <dd>Mexican</dd>
+          <dd>Middle Eastern</dd>
+          <dd>Thai</dd>
         </dl>
         <dl>
           <dt className="mb-2 font-bold uppercase">Dietary</dt>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
+          <dd>Dairy Free</dd>
+          <dd>Egg Free</dd>
+          <dd>Gluten Free</dd>
+          <dd>Low Carb</dd>
+          <dd>Nut Free</dd>
+          <dd>Paleo</dd>
+          <dd>Vegan</dd>
+          <dd>Vegetarian</dd>
         </dl>
         <dl>
           <dt className="mb-2 font-bold uppercase">Method</dt>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
+          <dd>Baking</dd>
+          <dd>Grilling</dd>
+          <dd>Instant Pot</dd>
+          <dd>No-Bake</dd>
+          <dd>Slow Cooker</dd>
+          <dd>Stove Top</dd>
         </dl>
         <dl>
           <dt className="mb-2 font-bold uppercase">Weigth Watchers</dt>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
-          <dd>Burgers</dd>
+          <dd>0 Blue Smartpoints</dd>
+          <dd>1 Blue Smartpoints</dd>
+          <dd>2 Blue Smartpoints</dd>
+          <dd>3 Blue Smartpoints</dd>
+          <dd>4 Blue Smartpoints</dd>
+          <dd>5 Blue Smartpoints</dd>
+          <dd>6 Blue Smartpoints</dd>
         </dl>
       </div>
     </nav>

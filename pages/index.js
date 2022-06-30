@@ -5,9 +5,11 @@ import List from "../components/list/List";
 import Pagination from "../components/list/Pagination";
 import { getAllCategories, getDataForHome } from "../lib/api";
 
-export default function Home({ data, categories }) {
+export default function Home({ data, categories, test }) {
   // console.log(`data`, data);
   // console.log(`categories`, categories);
+
+  console.log(test);
 
   return (
     <>
@@ -32,6 +34,8 @@ export default function Home({ data, categories }) {
 export const getStaticProps = async (ctx) => {
   const data = await getDataForHome(1);
   // const categories = await getAllCategories();
+
+  // let test = await getTotal();
 
   return {
     props: {

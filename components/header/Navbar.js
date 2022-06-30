@@ -18,7 +18,7 @@ const navItems = [
   },
   {
     name: `Breakfast`,
-    slug: `breakfast`,
+    slug: `breakfast-brunch`,
     list: [
       { name: `Savory Breakfast`, slug: `savory-breakfast` },
       { name: `Sweet Breakfast`, slug: `sweet-breakfast` },
