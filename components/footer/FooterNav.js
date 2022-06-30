@@ -1,10 +1,93 @@
+import Link from "next/link";
+
 export default function FooterNav(params) {
+  const navItems = [
+    {
+      title: `Course`,
+      type: `category`,
+      list: [
+        { title: `Burgers`, slug: `burgers` },
+        { title: `Casseroles`, slug: `casseroles` },
+        { title: `Pasta`, slug: `pasta` },
+        { title: `Pizza`, slug: `pizza-crust` },
+        { title: `Salads`, slug: `salads` },
+        { title: `Sandwiches`, slug: `sandwiches` },
+        { title: `Tacos`, slug: `tacos` },
+      ],
+    },
+    {
+      title: `Cuisine`,
+      type: `set`,
+      list: [
+        { title: `Asian`, slug: `asian-recipes` },
+        { title: `Cuban`, slug: `cuban-recipes` },
+        { title: `Greek`, slug: `greek-recipes` },
+        { title: `Indian`, slug: `indian-recipes` },
+        { title: `Mexican`, slug: `mexican-recipes` },
+        { title: `Middle Eastern`, slug: `middle-eastern-recipes` },
+        { title: `Thai`, slug: `thai-recipes` },
+      ],
+    },
+    {
+      title: `Dietary`,
+      type: `set`,
+      list: [
+        { title: `Dairy Free`, slug: `dairy-free` },
+        { title: `Egg Free`, slug: `egg-free` },
+        { title: `Gluten Free`, slug: `gluten-free` },
+        { title: `Low Carb`, slug: `low-carb` },
+        { title: `Nut Free`, slug: `nut-Free` },
+        { title: `Paleo`, slug: `paleo` },
+        { title: `Vegan`, slug: `vegan-recipes` },
+        { title: `Vegetarian`, slug: `vegetarian` },
+      ],
+    },
+    {
+      title: `Method`,
+      type: `set`,
+      list: [
+        { title: `Baking`, slug: `baking` },
+        { title: `Grilling`, slug: `grilling` },
+        { title: `Instant Pot`, slug: `instant-pot` },
+        { title: `No-Bake`, slug: `no-bake` },
+        { title: `Slow Cooker`, slug: `slow-cooker` },
+        { title: `Stove Top`, slug: `stove-top` },
+      ],
+    },
+    {
+      title: `Weigth Watchers`,
+      type: `set`,
+      list: [
+        { title: `0 Blue Smartpoints`, slug: `0-blue-smartpoints` },
+        { title: `1 Blue Smartpoints`, slug: `1-blue-smartpoints` },
+        { title: `2 Blue Smartpoints`, slug: `2-blue-smartpoints` },
+        { title: `3 Blue Smartpoints`, slug: `3-blue-smartpoints` },
+        { title: `4 Blue Smartpoints`, slug: `4-blue-smartpoints` },
+        { title: `5 Blue Smartpoints`, slug: `5-blue-smartpoints` },
+      ],
+    },
+  ];
+
   return (
     <nav className="flex w-full justify-center bg-[#439C9C] py-4">
       <div className="container grid grid-cols-5">
-        <dl className="grid gap-1">
+        {navItems.map((item) => (
+          <dl className="grid gap-1" key={item.title}>
+            <dt className="mb-1 font-bold uppercase">{item.title}</dt>
+            {item.list.map((subItem) => (
+              <dd key={subItem.slug}>
+                <Link href={`/${item.type}/${subItem.slug}`}>
+                  {subItem.title}
+                </Link>
+              </dd>
+            ))}
+          </dl>
+        ))}
+        {/* <dl className="grid gap-1">
           <dt className="mb-1 font-bold uppercase">Course</dt>
-          <dd>Burgers</dd>
+          <dd>
+            <Link href={`/category/burgers`}>Burgers</Link>
+          </dd>
           <dd>Casseroles</dd>
           <dd>Pasta</dd>
           <dd>Pizza</dd>
@@ -51,7 +134,7 @@ export default function FooterNav(params) {
           <dd>4 Blue Smartpoints</dd>
           <dd>5 Blue Smartpoints</dd>
           <dd>6 Blue Smartpoints</dd>
-        </dl>
+        </dl> */}
       </div>
     </nav>
   );

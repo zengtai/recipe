@@ -26,8 +26,8 @@ const navItems = [
   },
   { name: `Breads`, slug: `breads` },
   { name: `Desserts`, slug: `desserts` },
-  { name: `Dinners`, slug: `dinners` },
-  { name: `Sides`, slug: `side-dish` },
+  { name: `Dinners`, slug: `main-dishes` },
+  { name: `Sides`, slug: `side-dish-recipes-recipes` },
 ];
 
 export default function Navbar(params) {

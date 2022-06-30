@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 .recipe-content {
+  @apply text-slate-600;
+}
+
+.recipe-content {
   h2,
   h3,
   h4 {
@@ -15,10 +19,10 @@
     @apply text-xl;
   }
   p {
-    @apply my-4 text-slate-600;
+    @apply my-4;
   }
   li {
-    @apply ml-8 mb-2 text-slate-600;
+    @apply ml-8 mb-2;
   }
   .wprm-recipe-ingredient {
     @apply my-4;
@@ -27,15 +31,18 @@
     @apply bg-slate-300 p-1 text-xl;
   }
   .wprm-recipe-details-label {
-    @apply inline-block w-36;
+    @apply inline-block w-32 font-bold;
   }
   .wprm-recipe-ingredient-name {
     @apply font-bold capitalize;
   }
   .wprm-nutrition-label-container {
-    @apply gap-3 leading-8;
+    @apply gap-3 leading-10;
   }
   .wprm-nutrition-label-text-nutrition-label {
-    @apply mr-2 whitespace-nowrap rounded bg-slate-300 p-1;
+    @apply mr-1 whitespace-nowrap rounded bg-slate-300 p-1;
+  }
+  .wprm-nutrition-label-text-nutrition-value {
+    @apply mx-1;
   }
 }
