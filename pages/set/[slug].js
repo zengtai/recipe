@@ -1,12 +1,12 @@
 import Head from "next/head";
+
 import ListItem from "../../components/list/ListItem";
 import Pagination from "../../components/list/Pagination";
-
-export default function Category({ data, currentCategory }) {
+export default function Category({ data, currentSet }) {
   // console.log(`categories`, categories);
 
   console.log(`data`, data);
-  console.log(`currentCategory`, currentCategory);
+  console.log(`currentSet`, currentSet);
   return (
     <>
       <Head>
@@ -20,7 +20,7 @@ export default function Category({ data, currentCategory }) {
           <div className="grow">
             <h1
               className="mb-6 text-3xl font-bold text-[#439C9C]"
-              dangerouslySetInnerHTML={{ __html: currentCategory[0].name }}
+              dangerouslySetInnerHTML={{ __html: currentSet[0].name }}
             ></h1>
             <ul className="grid grid-cols-6 gap-4">
               {data.map((item) => (
@@ -41,34 +41,34 @@ const EXCLUDED_CATEGORY_ID = [`19959`, `8883`, `26383`, `7942`, `19961`]; // 排
 const EXCLUDED_CATEGORY = EXCLUDED_CATEGORY_ID.join(`,`); // 排除分类项
 
 export async function getStaticProps(ctx) {
-  const currentCategory = await fetch(
-    `https://www.recipegirl.com/wp-json/wp/v2/categories?slug=${ctx.params.slug}&_fields=slug,name,id`
+  const currentSet = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/set?slug=${ctx.params.slug}&_fields=slug,name,id`
   ).then((res) => res.json());
 
-  async function getCategoryIdBySlug(slug) {
+  async function getSetIdBySlug(slug) {
     const target = await fetch(
-      `https://www.recipegirl.com/wp-json/wp/v2/categories?slug=${slug}&_fields=slug,name,id,count`
+      `https://www.recipegirl.com/wp-json/wp/v2/set?slug=${slug}&_fields=slug,name,id,count`
     ).then((res) => res.json());
 
     return target[0].id;
   }
 
-  const categoryId = await getCategoryIdBySlug(ctx.params.slug); // 可行
+  const setId = await getSetIdBySlug(ctx.params.slug); // 可行
 
   //// 基于分类id获取数据
 
-  const childrenCategories = await fetch(
-    `https://www.recipegirl.com/wp-json/wp/v2/categories?parent=${categoryId}&per_page=100&_fields=id`
+  const childrenSets = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/set?parent=${setId}&per_page=100&_fields=id`
   ).then((res) => res.json());
 
   const children = [];
 
-  if (childrenCategories.length !== 0) {
-    childrenCategories.map((item) => children.push(item.id));
+  if (childrenSets.length !== 0) {
+    childrenSets.map((item) => children.push(item.id));
   }
 
   const sourceData = await fetch(
-    `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${page}&categories=${categoryId}${children.join(
+    `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${page}&set=${setId}${children.join(
       `,`
     )}&_fields=slug,title,id,_links,_embedded&_embed`
   ).then((res) => res.json());
@@ -94,24 +94,24 @@ export async function getStaticProps(ctx) {
     props: {
       data,
       // categories,
-      currentCategory,
+      currentSet,
     },
   };
 }
 
 export async function getStaticPaths() {
-  const allCategories = await fetch(
-    `https://www.recipegirl.com/wp-json/wp/v2/categories?&per_page=100&page=1&exclude=${EXCLUDED_CATEGORY}&_fields=slug`
+  const allSets = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/set?&per_page=100&page=1&exclude=${EXCLUDED_CATEGORY}&_fields=slug`
   ).then((res) => res.json());
 
   //获取所有分类slug;
 
-  const allCategorySlugs = [];
-  allCategories.map((item) => allCategorySlugs.push(item.slug));
+  const allSetSlugs = [];
+  allSets.map((item) => allSetSlugs.push(item.slug));
 
   // const categories = await getAllCategories();
 
-  const paths = allCategorySlugs.map((item) => ({
+  const paths = allSetSlugs.map((item) => ({
     params: { slug: item },
   }));
 

@@ -112,6 +112,10 @@ export async function getStaticProps(params) {
       /<h2 class="wprm-recipe-name(.|\n)*<div class="wprm-recipe-summary/g,
       `<div class="wprm-recipe-summary`
     )
+    .replace(
+      /<div class="wprm-recipe-block-container wprm-recipe-block-container-inline wprm-block-text-normal wprm-recipe-author-container"(.|\n)*<div class="wprm-recipe-ingredients-container/g,
+      `<div class="wprm-recipe-ingredients-container`
+    )
     .match(/<div id="recipe">(.|\n)*<\/div>/g);
   // content = content.match(/<div id="recipe">(.|\n)*<\/div>/g);
   /* 分页 */

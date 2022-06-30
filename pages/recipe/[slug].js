@@ -2,6 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import RecipeDetail from "../../components/detail/RecipeDetail";
+import List from "../../components/list/List";
+import ListItem from "../../components/list/ListItem";
 import {
   getAllCategories,
   getDataByCategory,
@@ -9,8 +11,9 @@ import {
   getTotal,
 } from "../../lib/api";
 
-export default function Recipe({ data }) {
+export default function Recipe({ data, recommendedData }) {
   console.log(`data`, data);
+  console.log(`recommendedData`, recommendedData);
   return (
     <>
       <Head>
@@ -20,7 +23,7 @@ export default function Recipe({ data }) {
 
       <div className="container flex gap-6">
         <div className="flex grow flex-col bg-white">
-          <div className="flex grow">
+          <div className="flex grow gap-4">
             <div className="grow">
               <div className="flex gap-4">
                 <div className="relative h-fit basis-1/5 border-4 border-[#48C0C0]">
@@ -37,62 +40,37 @@ export default function Recipe({ data }) {
                 </div>
               </div>
             </div>
-            <div className="basis-1/6">
+            <div className="xl:w-48">
               <h2 className="mb-4 text-xl font-bold text-[#439C9C]">
                 Recommended
               </h2>
               <ul className="grid gap-4">
-                <li className="flex gap-4">
-                  <div className="relative h-24 w-24 border-4 border-[#48C0C0]">
-                    <Image
-                      src={`https://www.recipegirl.com/wp-content/uploads/2008/08/Best-Brownies-Recipe-1-300x300.jpeg`}
-                      alt="Title"
-                      width={200}
-                      height={200}
-                      layout={`responsive`}
-                    />
-                  </div>
-                  <div className="flex flex-col justify-between">
-                    <h2 className="py-2 font-bold text-[#439C9C]">Title</h2>
-                    <Link href={`/`}>
-                      <a className="text-sm">Read More...</a>
+                {recommendedData.map((item) => (
+                  <li key={item.id}>
+                    <Link href={`/recipe/${item.slug}`}>
+                      <a className="flex gap-4">
+                        <div className="relative h-24 w-24 border-4 border-[#48C0C0]">
+                          <Image
+                            src={item.featuredImageUrl}
+                            alt={item.title}
+                            width={200}
+                            height={200}
+                            layout={`responsive`}
+                          />
+                        </div>
+                        <div className="flex grow flex-col">
+                          <h2 className="grow py-2 font-bold text-[#439C9C]">
+                            {item.title}
+                          </h2>
+
+                          <span className="text-sm text-[#D93B85]">
+                            Read More &rarr;
+                          </span>
+                        </div>
+                      </a>
                     </Link>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="relative h-24 w-24 border-4 border-[#48C0C0]">
-                    <Image
-                      src={`https://www.recipegirl.com/wp-content/uploads/2008/08/Best-Brownies-Recipe-1-300x300.jpeg`}
-                      alt="Title"
-                      width={200}
-                      height={200}
-                      layout={`responsive`}
-                    />
-                  </div>
-                  <div className="flex flex-col justify-between">
-                    <h2 className="py-2 font-bold text-[#439C9C]">Title</h2>
-                    <Link href={`/`}>
-                      <a className="text-sm">Read More...</a>
-                    </Link>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="relative h-24 w-24 border-4 border-[#48C0C0]">
-                    <Image
-                      src={`https://www.recipegirl.com/wp-content/uploads/2008/08/Best-Brownies-Recipe-1-300x300.jpeg`}
-                      alt="Title"
-                      width={200}
-                      height={200}
-                      layout={`responsive`}
-                    />
-                  </div>
-                  <div className="flex flex-col justify-between">
-                    <h2 className="py-2 font-bold text-[#439C9C]">Title</h2>
-                    <Link href={`/`}>
-                      <a className="text-sm">Read More...</a>
-                    </Link>
-                  </div>
-                </li>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -114,7 +92,7 @@ export async function getStaticProps(ctx) {
   // const categories = await getAllCategories();
 
   const sourceData = await fetch(
-    `https://www.recipegirl.com/wp-json/wp/v2/posts?&slug=${ctx.params.slug}&_fields=slug,title,content,id,_links,_embedded&_embed`
+    `https://www.recipegirl.com/wp-json/wp/v2/posts?&slug=${ctx.params.slug}&_fields=slug,title,content,categories,id,_links,_embedded&_embed`
   ).then((res) => res.json());
   let data = [];
   sourceData.map((item) => {
@@ -123,16 +101,38 @@ export async function getStaticProps(ctx) {
     tmp.title = item.title.rendered;
     tmp.slug = item.slug;
     tmp.content = item.content.rendered;
+    tmp.categories = item.categories;
     tmp.featuredImageUrl =
       item._embedded[
         "wp:featuredmedia"
       ][0].media_details.sizes.square.source_url;
+
     data.push(tmp);
+  });
+
+  const currentCategory = data[0].categories.join(`,`);
+  const relatedData = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/posts?&categories=${currentCategory}&exclude=${data[0].id}&per_page=4&_fields=slug,title,id,_links,_embedded&_embed`
+  ).then((res) => res.json());
+
+  const recommendedData = [];
+  relatedData.map((item) => {
+    let tmp = {};
+    tmp.id = item.id;
+    tmp.title = item.title.rendered;
+    tmp.slug = item.slug;
+    tmp.featuredImageUrl =
+      item._embedded[
+        "wp:featuredmedia"
+      ][0].media_details.sizes.square.source_url;
+
+    recommendedData.push(tmp);
   });
 
   return {
     props: {
       data: data[0],
+      recommendedData,
       // categories,
     },
   };
