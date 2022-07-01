@@ -2,14 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const navItems = [
-  {
-    name: `Beverages`,
-    slug: `beverages`,
-  },
-  {
-    name: `Breakfast`,
-    slug: `breakfast-brunch`,
-  },
+
   { name: `Breads`, slug: `breads` },
   { name: `Desserts`, slug: `desserts` },
   { name: `Dinners`, slug: `main-dishes` },

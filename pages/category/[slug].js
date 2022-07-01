@@ -6,8 +6,8 @@ import { EXCLUDED_CATEGORY, getCategoryIdBySlug } from "../../lib/api";
 
 export default function Category({ data, sourceData, currentCategory }) {
   // console.log(`categories`, categories);
-  console.log(`sourceData`, sourceData);
-  console.log(`data`, data);
+  // console.log(`sourceData`, sourceData[0]);
+  // console.log(`data`, data);
   // console.log(`Count`, data.length);
   // console.log(`currentCategory`, currentCategory);
   return (
@@ -26,9 +26,9 @@ export default function Category({ data, sourceData, currentCategory }) {
               dangerouslySetInnerHTML={{ __html: currentCategory[0].name }}
             ></h1>
             <ul className="grid grid-cols-6 gap-4">
-              {/* {data.map((item) => (
+              {data.map((item) => (
                 <ListItem key={item.id} item={item} />
-              ))} */}
+              ))}
             </ul>
           </div>
           {/* <Pagination /> */}
@@ -74,10 +74,11 @@ export async function getStaticProps(ctx) {
     tmp.title = item.title.rendered;
     tmp.id = item.id;
     tmp.slug = item.slug;
-    let img =
-      item._embedded["wp:featuredmedia"];
-    tmp.featuredImageUrl = img[0].media_details.sizes.square.source_url;
-
+    tmp.featuredImageUrl =
+      item._embedded[
+        "wp:featuredmedia"
+      ][0].media_details.sizes.square.source_url;
+    
     data.push(tmp);
   });
 
