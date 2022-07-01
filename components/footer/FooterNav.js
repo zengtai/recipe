@@ -7,7 +7,7 @@ export default function FooterNav(params) {
       type: `category`,
       list: [
         { title: `Burgers`, slug: `burgers` },
-        { title: `Casseroles`, slug: `casseroles` },
+        // { title: `Casseroles`, slug: `casseroles` },
         { title: `Pasta`, slug: `pasta` },
         { title: `Pizza`, slug: `pizza-crust` },
         { title: `Salads`, slug: `salads` },

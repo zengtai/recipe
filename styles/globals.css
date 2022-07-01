@@ -45,4 +45,16 @@
   .wprm-nutrition-label-text-nutrition-value {
     @apply mx-1;
   }
+  .smart-points {
+    @apply my-4;
+  }
+  .wprm-recipe-blue_smartpoints {
+    @apply rounded bg-blue-600 px-1.5 text-white;
+  }
+  .wprm-recipe-green_smartpoints {
+    @apply rounded bg-green-600 px-1.5 text-white;
+  }
+  .wprm-recipe-purple_smartpoints {
+    @apply rounded bg-purple-600 px-1.5 text-white;
+  }
 }

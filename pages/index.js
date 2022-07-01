@@ -26,7 +26,7 @@ export default function Home({ data, aside, test }) {
           <div className="grow">
             <List items={data} />
           </div>
-          <Pagination />
+          {/* <Pagination /> */}
         </div>
       </div>
     </>

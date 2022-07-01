@@ -3,7 +3,8 @@ import Head from "next/head";
 import ListItem from "../../components/list/ListItem";
 import Pagination from "../../components/list/Pagination";
 
-import { getTotal } from "../../lib/api";
+import { getTotal, EXCLUDED_SET_ID } from "../../lib/api";
+import { SITE_META } from "../../lib/constants";
 
 export default function Category({ data, currentSet }) {
   // console.log(`categories`, categories);
@@ -13,7 +14,7 @@ export default function Category({ data, currentSet }) {
   return (
     <>
       <Head>
-        <title>Recipe Guru</title>
+        <title> {`${currentSet[0].name} | ${SITE_META.name}`}</title>
         <meta name="description" content="Recipe for Every Day" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -31,7 +32,7 @@ export default function Category({ data, currentSet }) {
               ))}
             </ul>
           </div>
-          <Pagination />
+          {/* <Pagination /> */}
         </div>
       </div>
     </>
@@ -61,7 +62,7 @@ export async function getStaticProps(ctx) {
   //// 基于分类id获取数据
 
   const childrenSets = await fetch(
-    `https://www.recipegirl.com/wp-json/wp/v2/set?parent=${setId}&per_page=100&_fields=id`
+    `https://www.recipegirl.com/wp-json/wp/v2/set?parent=${setId}&per_page=100&_fields=id&exclude=${EXCLUDED_SET_ID}`
   ).then((res) => res.json());
 
   const children = [];
@@ -111,7 +112,7 @@ export async function getStaticPaths() {
 
   for (let currPage = 1; currPage <= pages; currPage++) {
     let tmp = await fetch(
-      `https://www.recipegirl.com/wp-json/wp/v2/set?&per_page=${per_page}&page=${currPage}&_fields=slug`
+      `https://www.recipegirl.com/wp-json/wp/v2/set?&per_page=${per_page}&page=${currPage}&_fields=slug&exclude=${EXCLUDED_SET_ID}`
     ).then((res) => res.json());
 
     allSet = allSet.concat(tmp);

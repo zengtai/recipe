@@ -2,23 +2,19 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import RecipeDetail from "../../components/detail/RecipeDetail";
-import List from "../../components/list/List";
-import ListItem from "../../components/list/ListItem";
-import {
-  getAllCategories,
-  getDataByCategory,
-  getDataBySlug,
-  getTotal,
-  EXCLUDED_CATEGORY,
-} from "../../lib/api";
 
-export default function Recipe({ data, recommendedData }) {
-  // console.log(`data`, data);
+import { getAllSlugs, getTotal } from "../../lib/api";
+import { SITE_META } from "../../lib/constants";
+
+export default function Recipe({ data, recommendedData, slug, pages }) {
+  console.log(`data`, data);
+  console.log(`slug`, slug);
+  console.log(`pages`, pages);
   // console.log(`recommendedData`, recommendedData);
   return (
     <>
       <Head>
-        <title>{data.title}</title>
+        <title>{`${data.title} | ${SITE_META.name}`}</title>
         <meta name="description" content="Recipe for Every Day" />
       </Head>
 
@@ -112,6 +108,7 @@ export async function getStaticProps(ctx) {
   });
 
   const currentCategory = data[0].categories.join(`,`);
+
   const relatedData = await fetch(
     `https://www.recipegirl.com/wp-json/wp/v2/posts?&categories=${currentCategory}&exclude=${data[0].id}&per_page=4&_fields=slug,title,id,_links,_embedded&_embed`
   ).then((res) => res.json());
@@ -130,29 +127,26 @@ export async function getStaticProps(ctx) {
     recommendedData.push(tmp);
   });
 
+  const slugs = await getAllSlugs();
+
+  const allDataCount = await getTotal(100, `posts`);
+
+  let pages = allDataCount.pages;
+
   return {
     props: {
       data: data[0],
       recommendedData,
+      slug: ctx.params.slug,
+      slugs,
+      pages,
       // categories,
     },
   };
 }
 
 export async function getStaticPaths() {
-  let recipes = [];
-  const per_page = 100;
-  const allDataCount = await getTotal(per_page);
-
-  let pages = allDataCount.pages;
-
-  for (let currPage = 1; currPage <= pages; currPage++) {
-    let tmp = await fetch(
-      `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${currPage}&categories_exclude=${EXCLUDED_CATEGORY}&_fields=slug`
-    ).then((res) => res.json());
-
-    recipes = recipes.concat(tmp);
-  }
+  const slugs = await getAllSlugs();
 
   // for (let page = 1, per_page = 10; page * 10 <= total; page++) {
   //   let tmp = await fetch(
@@ -160,7 +154,9 @@ export async function getStaticPaths() {
   //   );
   // }
 
-  const paths = recipes.map((item) => ({ params: { slug: item.slug } }));
+  const paths = slugs.map((item) => ({ params: { slug: item.slug } }));
+
+  // console.log(`paths`, paths.length);
 
   return {
     paths,

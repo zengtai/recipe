@@ -1,16 +1,18 @@
 import Head from "next/head";
 import ListItem from "../../components/list/ListItem";
 import Pagination from "../../components/list/Pagination";
+import { SITE_META } from "../../lib/constants";
+import { EXCLUDED_CATEGORY, getTotal } from "../../lib/api";
 
 export default function Category({ data, currentCategory }) {
   // console.log(`categories`, categories);
 
-  // console.log(`data`, data);
+  console.log(`Count`, data.length);
   // console.log(`currentCategory`, currentCategory);
   return (
     <>
       <Head>
-        <title>Recipe Guru</title>
+        <title>{`${currentCategory[0].name} | ${SITE_META.name}`}</title>
         <meta name="description" content="Recipe for Every Day" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -28,19 +30,16 @@ export default function Category({ data, currentCategory }) {
               ))}
             </ul>
           </div>
-          <Pagination />
+          {/* <Pagination /> */}
         </div>
       </div>
     </>
   );
 }
 
-const page = 1; // 页数
-const per_page = 20; // 每页条数
-const EXCLUDED_CATEGORY_ID = [`19959`, `8883`, `26383`, `7942`, `19961`]; // 排除分类ID
-const EXCLUDED_CATEGORY = EXCLUDED_CATEGORY_ID.join(`,`); // 排除分类项
-
 export async function getStaticProps(ctx) {
+  const page = 1; // 页数
+  const per_page = 30; // 每页条数
   const currentCategory = await fetch(
     `https://www.recipegirl.com/wp-json/wp/v2/categories?slug=${ctx.params.slug}&_fields=slug,name,id`
   ).then((res) => res.json());
@@ -68,9 +67,7 @@ export async function getStaticProps(ctx) {
   }
 
   const sourceData = await fetch(
-    `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${page}&categories=${categoryId}${children.join(
-      `,`
-    )}&_fields=slug,title,id,_links,_embedded&_embed`
+    `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${page}&categories=${categoryId}&_fields=slug,title,id,_links,_embedded&_embed`
   ).then((res) => res.json());
 
   //// 筛选数据
