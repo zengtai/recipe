@@ -19,17 +19,17 @@ export default function Recipe({ data, recommendedData, slug, pages }) {
         <meta name="description" content="Recipe for Every Day" />
       </Head>
       <Banner
-        className={`banner rectangle`}
+        className={`banner rectangle banner_lg xl:mb-8`}
         style={{ display: "block" }}
         slot={ADS_SLOT_ID.detail}
         responsive="false"
       />
-      <div className="container flex flex-col gap-6">
+      <div className="container">
         <div className="flex grow bg-white">
-          <div className="flex grow flex-col gap-4">
+          <div className="flex grow flex-col justify-center gap-4 xl:flex-row">
             <div className="grow">
-              <div className="flex flex-col gap-4">
-                <div className="relative mx-4 h-fit w-32 border-4 border-[#48C0C0] xl:basis-1/5">
+              <div className="flex flex-col items-center gap-4 xl:flex-row xl:items-start">
+                <div className="relative mx-4 h-fit w-32 border-4 border-[#48C0C0] xl:w-[200px] xl:basis-1/5">
                   <Image
                     src={data.featuredImageUrl}
                     alt={data.title}
@@ -47,7 +47,7 @@ export default function Recipe({ data, recommendedData, slug, pages }) {
               <h2 className="mx-4 mb-4 text-xl font-bold text-[#439C9C]">
                 Recommended
               </h2>
-              <ul className="mx-4 grid gap-4">
+              <ul className="m-4 grid gap-4">
                 {recommendedData.map((item) => (
                   <li key={item.id}>
                     <Link href={`/recipe/${item.slug}`}>

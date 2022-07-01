@@ -5,7 +5,7 @@ export default function Layout({ children }) {
   return (
     <div className={`flex min-h-screen flex-col bg-white`}>
       <Navbar />
-      <main className="flex grow flex-col items-center justify-center py-4 xl:py-14">
+      <main className="flex grow flex-col items-center justify-center py-4 xl:py-4">
         {children}
       </main>
       <Footer />
