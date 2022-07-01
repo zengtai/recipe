@@ -5,8 +5,8 @@ import Pagination from "../../components/list/Pagination";
 export default function Category({ data, currentCategory }) {
   // console.log(`categories`, categories);
 
-  console.log(`data`, data);
-  console.log(`currentCategory`, currentCategory);
+  // console.log(`data`, data);
+  // console.log(`currentCategory`, currentCategory);
   return (
     <>
       <Head>

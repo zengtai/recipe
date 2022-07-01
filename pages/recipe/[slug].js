@@ -13,8 +13,8 @@ import {
 } from "../../lib/api";
 
 export default function Recipe({ data, recommendedData }) {
-  console.log(`data`, data);
-  console.log(`recommendedData`, recommendedData);
+  // console.log(`data`, data);
+  // console.log(`recommendedData`, recommendedData);
   return (
     <>
       <Head>

@@ -8,8 +8,8 @@ import { getTotal } from "../../lib/api";
 export default function Category({ data, currentSet }) {
   // console.log(`categories`, categories);
 
-  console.log(`data`, data);
-  console.log(`currentSet`, currentSet);
+  // console.log(`data`, data);
+  // console.log(`currentSet`, currentSet);
   return (
     <>
       <Head>

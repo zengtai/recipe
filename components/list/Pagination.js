@@ -1,4 +1,4 @@
-export default function Pagination(params) {
+export default function Pagination({ pages }) {
   return (
     <div className="mt-6 flex justify-center gap-8">
       <button className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-50 text-sm uppercase text-slate-400">
