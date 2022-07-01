@@ -36,6 +36,10 @@ function MyApp({ Component, pageProps }) {
     <Layout>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="viewport"
+          content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, width=device-width, height=device-height"
+        />
       </Head>
       <Component {...pageProps} />
     </Layout>

@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import Banner from "../../components/ads/Banner";
 import RecipeDetail from "../../components/detail/RecipeDetail";
 
 import { getAllSlugs, getTotal } from "../../lib/api";
-import { SITE_META } from "../../lib/constants";
+import { SITE_META, ADS_SLOT_ID } from "../../lib/constants";
 
 export default function Recipe({ data, recommendedData, slug, pages }) {
   console.log(`data`, data);
@@ -17,13 +18,18 @@ export default function Recipe({ data, recommendedData, slug, pages }) {
         <title>{`${data.title} | ${SITE_META.name}`}</title>
         <meta name="description" content="Recipe for Every Day" />
       </Head>
-
-      <div className="container flex gap-6">
-        <div className="flex grow flex-col bg-white">
-          <div className="flex grow gap-4">
+      <Banner
+        className={`banner rectangle`}
+        style={{ display: "block" }}
+        slot={ADS_SLOT_ID.category}
+        responsive="false"
+      />
+      <div className="container flex flex-col gap-6">
+        <div className="flex grow bg-white">
+          <div className="flex grow flex-col gap-4">
             <div className="grow">
-              <div className="flex gap-4">
-                <div className="relative h-fit basis-1/5 border-4 border-[#48C0C0]">
+              <div className="flex flex-col gap-4">
+                <div className="relative mx-4 h-fit w-32 border-4 border-[#48C0C0] xl:basis-1/5">
                   <Image
                     src={data.featuredImageUrl}
                     alt={data.title}
@@ -32,16 +38,16 @@ export default function Recipe({ data, recommendedData, slug, pages }) {
                     layout={`responsive`}
                   />
                 </div>
-                <div className="max-w-3xl">
+                <div className="mx-4 max-w-3xl">
                   <RecipeDetail content={data.content} title={data.title} />
                 </div>
               </div>
             </div>
             <div className="xl:max-w-xl">
-              <h2 className="mb-4 text-xl font-bold text-[#439C9C]">
+              <h2 className="mx-4 mb-4 text-xl font-bold text-[#439C9C]">
                 Recommended
               </h2>
-              <ul className="grid gap-4">
+              <ul className="mx-4 grid gap-4">
                 {recommendedData.map((item) => (
                   <li key={item.id}>
                     <Link href={`/recipe/${item.slug}`}>
@@ -99,12 +105,18 @@ export async function getStaticProps(ctx) {
     tmp.slug = item.slug;
     tmp.content = item.content.rendered;
     tmp.categories = item.categories;
-    tmp.featuredImageUrl =
-      item._embedded[
-        "wp:featuredmedia"
-      ][0].media_details.sizes.square.source_url;
-
-    data.push(tmp);
+    let tmp1 = ""; //设置默认图片
+    try {
+      tmp1 =
+        item._embedded["wp:featuredmedia"][0].media_details.sizes.square
+          .source_url;
+    } catch (e) {
+      /*try {
+        tmp1 = item._embedded["wp:featuredmedia"][0].media_details.sizes.full;
+      } catch (e) {}*/
+    }
+    tmp.featuredImageUrl = tmp1;
+    if (tmp1 != "") data.push(tmp);
   });
 
   const currentCategory = data[0].categories.join(`,`);

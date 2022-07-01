@@ -17,7 +17,9 @@ export default function RecipeDetail({ content, title }) {
     .match(/<div id="recipe">(.|\n)*<\/div>/g);
   return (
     <>
-      <h1 className="mb-6 text-5xl font-bold text-[#439C9C]">{title}</h1>
+      <h1 className="mb-6 text-2xl font-bold text-[#439C9C] xl:text-5xl">
+        {title}
+      </h1>
       <div
         className="recipe-content"
         dangerouslySetInnerHTML={{

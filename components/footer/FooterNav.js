@@ -70,18 +70,20 @@ export default function FooterNav(params) {
 
   return (
     <nav className="flex w-full justify-center bg-[#439C9C] py-4">
-      <div className="container grid grid-cols-5">
+      <div className="container grid grid-cols-1 gap-4 xl:grid-cols-5">
         {navItems.map((item) => (
-          <dl className="grid gap-1" key={item.title}>
-            <dt className="mb-1 font-bold uppercase">{item.title}</dt>
-            {item.list.map((subItem) => (
-              <dd key={subItem.slug}>
-                <Link href={`/${item.type}/${subItem.slug}`}>
-                  {subItem.title}
-                </Link>
-              </dd>
-            ))}
-          </dl>
+          <div className="mx-4" key={item.title}>
+            <h3 className="mb-4 font-bold uppercase">{item.title}</h3>
+            <ul className="grid grid-cols-3 gap-3">
+              {item.list.map((subItem) => (
+                <li key={subItem.slug}>
+                  <Link href={`/${item.type}/${subItem.slug}`}>
+                    {subItem.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
         {/* <dl className="grid gap-1">
           <dt className="mb-1 font-bold uppercase">Course</dt>

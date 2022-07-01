@@ -6,7 +6,7 @@ export default function Footer(params) {
       className={`flex flex-col items-center justify-center bg-[#48C0C0] text-sm text-white`}
     >
       <FooterNav />
-      <div className="container py-6">
+      <div className="container py-6 text-center text-xs">
         Copyright &copy; {new Date().getFullYear()} Recipt Guru. All Rights
         Reserved
       </div>

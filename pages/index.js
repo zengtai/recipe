@@ -2,8 +2,11 @@ import Head from "next/head";
 
 import Aside from "../components/Aside";
 import List from "../components/list/List";
-import Pagination from "../components/list/Pagination";
+// import Pagination from "../components/list/Pagination";
 import { getDataForHome } from "../lib/api";
+import { ADS_SLOT_ID } from "../lib/constants";
+
+import Banner from "../components/ads/Banner";
 
 export default function Home({ data, aside, test }) {
   // console.log(`data`, data);
@@ -18,11 +21,17 @@ export default function Home({ data, aside, test }) {
         <meta name="description" content="Recipe for Every Day" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Banner
+        className={`banner`}
+        style={{ display: "block" }}
+        slot={ADS_SLOT_ID.home}
+        responsive="false"
+      />
       <div className="container flex gap-6">
-        <aside className="basis-1/6">
+        <aside className="hidden basis-1/6 xl:block">
           <Aside items={aside} />
         </aside>
-        <div className="flex basis-5/6 flex-col bg-white">
+        <div className="mx-4 flex flex-col bg-white xl:basis-5/6">
           <div className="grow">
             <List items={data} />
           </div>

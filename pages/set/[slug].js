@@ -26,7 +26,7 @@ export default function Category({ data, currentSet }) {
               className="mb-6 text-3xl font-bold text-[#439C9C]"
               dangerouslySetInnerHTML={{ __html: currentSet[0].name }}
             ></h1>
-            <ul className="grid grid-cols-6 gap-4">
+            <ul className="grid grid-cols-2 gap-4 xl:grid-cols-6">
               {data.map((item) => (
                 <ListItem key={item.id} item={item} />
               ))}
@@ -72,9 +72,7 @@ export async function getStaticProps(ctx) {
   }
 
   const sourceData = await fetch(
-    `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${page}&set=${setId}${children.join(
-      `,`
-    )}&_fields=slug,title,id,_links,_embedded&_embed`
+    `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${page}&set=${setId}&_fields=slug,title,id,_links,_embedded&_embed`
   ).then((res) => res.json());
 
   //// 筛选数据
@@ -86,12 +84,19 @@ export async function getStaticProps(ctx) {
     tmp.title = item.title.rendered;
     tmp.id = item.id;
     tmp.slug = item.slug;
-    tmp.featuredImageUrl =
-      item._embedded[
-        "wp:featuredmedia"
-      ][0].media_details.sizes.square.source_url;
+    let tmp1 = ""; //设置默认图片
+    try {
+      tmp1 =
+        item._embedded["wp:featuredmedia"][0].media_details.sizes.square
+          .source_url;
+    } catch (e) {
+      /*try {
+        tmp1 = item._embedded["wp:featuredmedia"][0].media_details.sizes.full;
+      } catch (e) {}*/
+    }
+    tmp.featuredImageUrl = tmp1;
 
-    data.push(tmp);
+    if (tmp1 != "") data.push(tmp);
   });
 
   return {

@@ -19,13 +19,13 @@ export default function Category({ data, sourceData, currentCategory }) {
       </Head>
 
       <div className="container flex gap-6">
-        <div className="flex grow flex-col bg-white">
+        <div className="mx-4 flex grow flex-col bg-white">
           <div className="grow">
             <h1
               className="mb-6 text-3xl font-bold text-[#439C9C]"
               dangerouslySetInnerHTML={{ __html: currentCategory[0].name }}
             ></h1>
-            <ul className="grid grid-cols-6 gap-4">
+            <ul className="grid grid-cols-2 gap-4 xl:grid-cols-6">
               {data.map((item) => (
                 <ListItem key={item.id} item={item} />
               ))}
@@ -74,12 +74,19 @@ export async function getStaticProps(ctx) {
     tmp.title = item.title.rendered;
     tmp.id = item.id;
     tmp.slug = item.slug;
-    tmp.featuredImageUrl =
-      item._embedded[
-        "wp:featuredmedia"
-      ][0].media_details.sizes.square.source_url;
-    
-    data.push(tmp);
+    let tmp1 = ""; //设置默认图片
+    try {
+      tmp1 =
+        item._embedded["wp:featuredmedia"][0].media_details.sizes.square
+          .source_url;
+    } catch (e) {
+      /*try {
+        tmp1 =
+          item._embedded["wp:featuredmedia"][0].media_details.sizes.full;
+      } catch (e) {}*/
+    }
+    tmp.featuredImageUrl = tmp1;
+    if (tmp1 != "") data.push(tmp);
   });
 
   return {
