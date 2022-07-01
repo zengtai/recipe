@@ -1,10 +1,11 @@
 import Head from "next/head";
+import Banner from "../../components/ads/Banner";
 
 import ListItem from "../../components/list/ListItem";
 import Pagination from "../../components/list/Pagination";
 
 import { getTotal, EXCLUDED_SET_ID } from "../../lib/api";
-import { SITE_META } from "../../lib/constants";
+import { SITE_META, ADS_SLOT_ID } from "../../lib/constants";
 
 export default function Category({ data, currentSet }) {
   // console.log(`categories`, categories);
@@ -14,13 +15,18 @@ export default function Category({ data, currentSet }) {
   return (
     <>
       <Head>
-        <title> {`${currentSet[0].name} | ${SITE_META.name}`}</title>
+        <title>{`${currentSet[0].name} | ${SITE_META.name}`}</title>
         <meta name="description" content="Recipe for Every Day" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Banner
+        className={`banner rectangle`}
+        style={{ display: "block" }}
+        slot={ADS_SLOT_ID.category}
+        responsive="false"
+      />
       <div className="container flex gap-6">
-        <div className="flex grow flex-col bg-white">
+        <div className="mx-4 flex grow flex-col bg-white">
           <div className="grow">
             <h1
               className="mb-6 text-3xl font-bold text-[#439C9C]"

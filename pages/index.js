@@ -22,7 +22,7 @@ export default function Home({ data, aside, test }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Banner
-        className={`banner`}
+        className={`banner banner_lg`}
         style={{ display: "block" }}
         slot={ADS_SLOT_ID.home}
         responsive="false"

@@ -21,7 +21,7 @@ export default function Recipe({ data, recommendedData, slug, pages }) {
       <Banner
         className={`banner rectangle`}
         style={{ display: "block" }}
-        slot={ADS_SLOT_ID.category}
+        slot={ADS_SLOT_ID.detail}
         responsive="false"
       />
       <div className="container flex flex-col gap-6">

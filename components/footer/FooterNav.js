@@ -74,7 +74,7 @@ export default function FooterNav(params) {
         {navItems.map((item) => (
           <div className="mx-4" key={item.title}>
             <h3 className="mb-4 font-bold uppercase">{item.title}</h3>
-            <ul className="grid grid-cols-3 gap-3">
+            <ul className="grid grid-cols-3 gap-3 xl:grid-cols-1">
               {item.list.map((subItem) => (
                 <li key={subItem.slug}>
                   <Link href={`/${item.type}/${subItem.slug}`}>

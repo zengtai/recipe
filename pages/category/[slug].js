@@ -1,8 +1,9 @@
 import Head from "next/head";
 import ListItem from "../../components/list/ListItem";
 import Pagination from "../../components/list/Pagination";
-import { SITE_META } from "../../lib/constants";
+import { SITE_META, ADS_SLOT_ID } from "../../lib/constants";
 import { EXCLUDED_CATEGORY, getCategoryIdBySlug } from "../../lib/api";
+import Banner from "../../components/ads/Banner";
 
 export default function Category({ data, sourceData, currentCategory }) {
   // console.log(`categories`, categories);
@@ -17,7 +18,12 @@ export default function Category({ data, sourceData, currentCategory }) {
         <meta name="description" content="Recipe for Every Day" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Banner
+        className={`banner rectangle banner_lg`}
+        style={{ display: "block" }}
+        slot={ADS_SLOT_ID.category}
+        responsive="false"
+      />
       <div className="container flex gap-6">
         <div className="mx-4 flex grow flex-col bg-white">
           <div className="grow">

@@ -1,51 +1,13 @@
 import { useEffect } from "react";
 
-export default function Data({
-  dataForHome,
-  allCategories,
-  allCategorySlugs,
-  a,
-  b,
-  allSlugs,
-  content,
-}) {
+export default function Data({ content }) {
   // console.log(`Data for Homepage`, dataForHome);
   // console.log(`All Categories`, allCategories);
   // console.log(`All Category Slugs`, allCategorySlugs);
   // console.log(`a`, a);
   // console.log(`b`, b);
   // console.log(`allSlugs`, allSlugs);
-  console.log(`length`, JSON.parse(content).length);
-
-  useEffect(() => {
-    async function getData(params) {
-      const EXCLUDED_CATEGORY_ID = [7942, 8883, 19959, 19961, 26383];
-      const EXCLUDED_CATEGORY = EXCLUDED_CATEGORY_ID.join(`,`);
-
-      let allRecipes = [];
-
-      const total = await fetch(
-        `https://www.recipegirl.com/wp-json/wp/v2/posts?per_page=20&page=1&_fields=id&categories_exclude=${EXCLUDED_CATEGORY}&orderby=id`
-      ).then((res) => res.headers.get(`x-wp-total`));
-
-      const totalPages = await fetch(
-        `https://www.recipegirl.com/wp-json/wp/v2/posts?per_page=20&page=1&_fields=id&categories_exclude=${EXCLUDED_CATEGORY}&orderby=id`
-      ).then((res) => res.headers.get(`x-wp-totalpages`));
-
-      for (let page = 1; page <= totalPages; page++) {
-        const data = await fetch(
-          `https://www.recipegirl.com/wp-json/wp/v2/posts?per_page=20&page=${page}&_fields=id,title,content,slug,_links,_embedded&_embed&categories_exclude=${EXCLUDED_CATEGORY}&orderby=id`
-        ).then((res) => res.json());
-
-        allRecipes = allRecipes.concat(data);
-        typeof window !== "undefined" &&
-          localStorage.setItem(`recipesData`, {
-            data: allRecipes,
-            time: new Date(),
-          });
-      }
-    }
-  });
+  // console.log(`length`, JSON.parse(content).length);
 
   return (
     <div
