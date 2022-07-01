@@ -5,29 +5,15 @@ const navItems = [
   {
     name: `Beverages`,
     slug: `beverages`,
-    list: [
-      {
-        name: `Cocktails`,
-        slug: `cocktails`,
-      },
-      {
-        name: `Non-Alcoholic`,
-        slug: `non-alcoholic`,
-      },
-    ],
   },
   {
     name: `Breakfast`,
     slug: `breakfast-brunch`,
-    list: [
-      { name: `Savory Breakfast`, slug: `savory-breakfast` },
-      { name: `Sweet Breakfast`, slug: `sweet-breakfast` },
-    ],
   },
   { name: `Breads`, slug: `breads` },
   { name: `Desserts`, slug: `desserts` },
   { name: `Dinners`, slug: `main-dishes` },
-  { name: `Sides`, slug: `side-dish-recipes` },
+  { name: `Sides`, slug: `side-dish-recipes-recipes` },
 ];
 
 export default function Navbar(params) {
@@ -54,16 +40,6 @@ export default function Navbar(params) {
                 <Link href={`/category/${item.slug}`}>
                   <a>{item.name}</a>
                 </Link>
-                <ul className="hidden">
-                  {item.list &&
-                    item.list.map((subItem) => (
-                      <li key={subItem.slug}>
-                        <Link href={`/category/${subItem.slug}`}>
-                          <a>{subItem.name}</a>
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
               </li>
             ))}
           </ul>

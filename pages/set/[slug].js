@@ -2,6 +2,9 @@ import Head from "next/head";
 
 import ListItem from "../../components/list/ListItem";
 import Pagination from "../../components/list/Pagination";
+
+import { getTotal } from "../../lib/api";
+
 export default function Category({ data, currentSet }) {
   // console.log(`categories`, categories);
 
@@ -100,14 +103,24 @@ export async function getStaticProps(ctx) {
 }
 
 export async function getStaticPaths() {
-  const allSets = await fetch(
-    `https://www.recipegirl.com/wp-json/wp/v2/set?&per_page=100&page=1&exclude=${EXCLUDED_CATEGORY}&_fields=slug`
-  ).then((res) => res.json());
+  let allSet = [];
+  const per_page = 100;
+  const allDataCount = await getTotal(per_page, `set`);
+
+  let pages = allDataCount.pages;
+
+  for (let currPage = 1; currPage <= pages; currPage++) {
+    let tmp = await fetch(
+      `https://www.recipegirl.com/wp-json/wp/v2/set?&per_page=${per_page}&page=${currPage}&_fields=slug`
+    ).then((res) => res.json());
+
+    allSet = allSet.concat(tmp);
+  }
 
   //获取所有分类slug;
 
   const allSetSlugs = [];
-  allSets.map((item) => allSetSlugs.push(item.slug));
+  allSet.map((item) => allSetSlugs.push(item.slug));
 
   // const categories = await getAllCategories();
 

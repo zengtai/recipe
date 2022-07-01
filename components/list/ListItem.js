@@ -16,7 +16,10 @@ export default function ListItem({ item }) {
               layout={`responsive`}
             />
           </div>
-          <h2 className="p-2 font-bold text-[#439C9C]">{item.title}</h2>
+          <h2
+            className="p-2 font-bold text-[#439C9C]"
+            dangerouslySetInnerHTML={{ __html: item.title }}
+          ></h2>
         </a>
       </Link>
     </li>

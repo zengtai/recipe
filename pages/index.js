@@ -1,15 +1,15 @@
 import Head from "next/head";
-import Image from "next/image";
+
 import Aside from "../components/Aside";
 import List from "../components/list/List";
 import Pagination from "../components/list/Pagination";
-import { getAllCategories, getDataForHome } from "../lib/api";
+import { getDataForHome } from "../lib/api";
 
-export default function Home({ data, categories, test }) {
+export default function Home({ data, aside, test }) {
   // console.log(`data`, data);
   // console.log(`categories`, categories);
 
-  console.log(test);
+  // console.log(test);
 
   return (
     <>
@@ -19,8 +19,10 @@ export default function Home({ data, categories, test }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container flex gap-6">
-        <Aside />
-        <div className="flex grow flex-col bg-white">
+        <aside className="basis-1/6">
+          <Aside items={aside} />
+        </aside>
+        <div className="flex basis-5/6 flex-col bg-white">
           <div className="grow">
             <List items={data} />
           </div>
@@ -32,14 +34,43 @@ export default function Home({ data, categories, test }) {
 }
 
 export const getStaticProps = async (ctx) => {
-  const data = await getDataForHome(1);
+  const data = await getDataForHome();
   // const categories = await getAllCategories();
-
+  const mealType = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/categories?parent=1&_fields=id,name,slug&per_page=100`
+  ).then((res) => res.json());
+  const cookingMethod = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/set?parent=26251&per_page=100&_fields=id,name,slug&per_page=100`
+  ).then((res) => res.json());
+  const cuisine = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/set?parent=26252&per_page=100&_fields=id,name,slug&per_page=100`
+  ).then((res) => res.json());
+  const dietary = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/set?parent=26253&per_page=100&_fields=id,name,slug&per_page=100`
+  ).then((res) => res.json());
+  const holiday = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/set?parent=26254&per_page=100&_fields=id,name,slug&per_page=100`
+  ).then((res) => res.json());
+  const seasonal = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/set?parent=26255&per_page=100&_fields=id,name,slug&per_page=100`
+  ).then((res) => res.json());
+  const weightWatchers = await fetch(
+    `https://www.recipegirl.com/wp-json/wp/v2/set?parent=26257&per_page=100&_fields=id,name,slug&per_page=100`
+  ).then((res) => res.json());
   // let test = await getTotal();
 
   return {
     props: {
       data,
+      aside: {
+        mealType,
+        cookingMethod,
+        cuisine,
+        dietary,
+        holiday,
+        seasonal,
+        weightWatchers,
+      },
       // categories,
     },
   };

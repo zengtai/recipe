@@ -9,6 +9,7 @@ import {
   getDataByCategory,
   getDataBySlug,
   getTotal,
+  EXCLUDED_CATEGORY,
 } from "../../lib/api";
 
 export default function Recipe({ data, recommendedData }) {
@@ -40,7 +41,7 @@ export default function Recipe({ data, recommendedData }) {
                 </div>
               </div>
             </div>
-            <div className="xl:w-48">
+            <div className="xl:max-w-xl">
               <h2 className="mb-4 text-xl font-bold text-[#439C9C]">
                 Recommended
               </h2>
@@ -147,7 +148,7 @@ export async function getStaticPaths() {
 
   for (let currPage = 1; currPage <= pages; currPage++) {
     let tmp = await fetch(
-      `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${currPage}&categories_exclude=19959,8883,26383,7942,19961&_fields=slug`
+      `https://www.recipegirl.com/wp-json/wp/v2/posts?&per_page=${per_page}&page=${currPage}&categories_exclude=${EXCLUDED_CATEGORY}&_fields=slug`
     ).then((res) => res.json());
 
     recipes = recipes.concat(tmp);
